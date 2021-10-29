@@ -1,0 +1,2 @@
+DAEMON="/usr/bin/env DOCKER_RAMDISK=true /usr/bin/dockerd"
+ulimit -n 819200

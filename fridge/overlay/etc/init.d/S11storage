@@ -1,0 +1,21 @@
+#!/bin/sh
+
+case "$1" in
+    start)
+        mkdir -p /storage
+        mount -v /dev/mmcblk0p2 /storage
+        rm -rf /var
+        ln -s /storage/var /var
+        ;;
+    stop)
+        umount /dev/mmcblk0p2
+        ;;
+    *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+        ;;
+esac
+
+
+exit 0
+
