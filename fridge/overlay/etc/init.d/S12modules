@@ -1,0 +1,21 @@
+#!/bin/sh
+
+case "$1" in
+    start)
+      if [ -f /storage/etc/modules ]; then
+        for mod in $(cat /storage/etc/modules); do
+          modprobe $mod
+        done
+      fi
+        ;;
+    stop)
+        ;;
+    *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+        ;;
+esac
+
+
+exit 0
+

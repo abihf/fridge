@@ -1,0 +1,19 @@
+#!/bin/sh
+
+case "$1" in
+    start)
+      if [ -f /storage/etc/network/interfaces ]; then
+        ln -sf /storage/etc/network/interfaces /etc/network/interfaces
+      fi
+        ;;
+    stop)
+        ;;
+    *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+        ;;
+esac
+
+
+exit 0
+
