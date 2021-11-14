@@ -1,2 +1,3 @@
-DAEMON="/usr/bin/env DOCKER_RAMDISK=true /usr/bin/dockerd"
+# DAEMON="/usr/bin/env DOCKER_RAMDISK=true /usr/bin/dockerd"
+DAEMON_ARGS="--data-root /storage/var/lib/docker"
 ulimit -n 819200

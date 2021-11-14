@@ -2,9 +2,7 @@
 
 case "$1" in
     start)
-      if [ -f /storage/etc/network/interfaces ]; then
-        ln -sf /storage/etc/network/interfaces /etc/network/interfaces
-      fi
+        [ -f /boot/autostart.sh ] && source /boot/autostart.sh
         ;;
     stop)
         ;;
@@ -16,4 +14,3 @@ esac
 
 
 exit 0
-

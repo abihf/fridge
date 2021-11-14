@@ -2,10 +2,20 @@
 
 case "$1" in
     start)
-        mkdir -p /storage
-        mount -v /dev/mmcblk0p2 /storage
-        rm -rf /var
-        ln -s /storage/var /var
+        [ -d /storage/root ] || mkdir -p /storage/root
+        [ -d /storage/etc/ssh ] || mkdir -p /storage/etc/ssh
+        if [ ! -f /storage/var/.initialized ]; then
+            mkdir -p /storage/var
+            mkdir -p /storage/var/cache
+            mkdir -p /storage/var/empty
+            mkdir -p /storage/var/lib
+            mkdir -p /storage/var/log
+            ln -sf /tmp /storage/var/lock
+            ln -sf /tmp /storage/var/run
+            ln -sf /tmp /storage/var/tmp
+            touch /storage/var/.initialized
+        fi
+        mount --bind /storage/var /var
         ;;
     stop)
         umount /dev/mmcblk0p2
@@ -16,6 +26,4 @@ case "$1" in
         ;;
 esac
 
-
 exit 0
-

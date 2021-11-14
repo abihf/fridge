@@ -2,8 +2,8 @@
 
 case "$1" in
     start)
-      if [ -f /storage/etc/modules ]; then
-        for mod in $(cat /storage/etc/modules); do
+      if [ -f /boot/modules ]; then
+        for mod in $(cat /boot/modules); do
           modprobe $mod
         done
       fi
@@ -18,4 +18,3 @@ esac
 
 
 exit 0
-
