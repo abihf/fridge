@@ -16,7 +16,6 @@ rescue_shell() {
 
 /bin/busybox mkdir /new_root
 /bin/busybox mount -o ro,loop -t squashfs /boot/rootfs.squashfs /new_root || rescue_shell
-/bin/busybox mount /dev/mmcblk0p2 /new_root/storage || rescue_shell
 
 /bin/busybox mount --move /dev /new_root/dev
 /bin/busybox mount --move /proc /new_root/proc

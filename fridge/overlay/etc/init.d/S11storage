@@ -2,6 +2,8 @@
 
 case "$1" in
     start)
+        mount /dev/mmcblk0p2 /storage
+
         [ -d /storage/root ] || mkdir -p /storage/root
         [ -d /storage/etc/ssh ] || mkdir -p /storage/etc/ssh
         if [ ! -f /storage/var/.initialized ]; then
@@ -18,7 +20,8 @@ case "$1" in
         mount --bind /storage/var /var
         ;;
     stop)
-        umount /dev/mmcblk0p2
+        umount /storage/var
+        umount /storage
         ;;
     *)
         echo "Usage: $0 {start|stop}"
