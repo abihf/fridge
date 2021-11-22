@@ -11,6 +11,12 @@ rescue_shell() {
 
 /bin/busybox mdev -s
 
+retry=10
+until [ -b /dev/mmcblk0p1 -o $retry -gt 0 ]; do
+  /bin/busybox sleep 1
+  retry=$(($retry-1))
+done
+
 /bin/busybox mkdir /boot
 /bin/busybox mount /dev/mmcblk0p1 /boot || rescue_shell
 
