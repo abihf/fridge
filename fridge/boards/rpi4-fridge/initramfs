@@ -7,15 +7,9 @@ dir /usr 0755 0 0
 dir /lib 0755 0 0
 slink /lib64 lib 0777 0 0
 
-file /lib/ld-2.33.so ${TARGET_DIR}/usr/lib/ld-2.33.so 0755 0 0
-slink /lib/ld-linux-aarch64.so.1 ld-2.33.so 0777 0 0
-
-file /lib/libc-2.33.so ${TARGET_DIR}/usr/lib/libc-2.33.so 0755 0 0
-slink /lib/libc.so.6 libc-2.33.so 0777 0 0
-
-file /lib/libresolv-2.33.so ${TARGET_DIR}/usr/lib/libresolv-2.33.so 0755 0 0
-slink /lib/libresolv.so.2 libresolv-2.33.so 0777 0 0
-
+file /lib/ld-linux-aarch64.so.1 ${TARGET_DIR}/usr/lib/ld-linux-aarch64.so.1 0755 0 0
+file /lib/libc.so.6 ${TARGET_DIR}/usr/lib/libc.so.6 0755 0 0
+file /lib/libresolv.so.2 ${TARGET_DIR}/usr/lib/libresolv.so.2 0755 0 0
 file /bin/busybox ${TARGET_DIR}/usr/bin/busybox 0755 0 0
 
 file /init ${BR2_EXTERNAL_FRIDGE_PATH}/boards/rpi4-fridge/init 0755 0 0
