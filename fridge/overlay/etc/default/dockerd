@@ -1,0 +1,2 @@
+DAEMON_ARGS="--registry-mirror=https://mirror.gcr.io"
+ulimit -n 100000
