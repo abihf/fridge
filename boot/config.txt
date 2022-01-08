@@ -1,0 +1,22 @@
+# Please note that this is only a sample, we recommend you to change it to fit
+# your needs.
+# You should override this file using a post-build script.
+# See http://buildroot.org/manual.html#rootfs-custom
+# and http://elinux.org/RPiconfig for a description of config.txt syntax
+
+# We always use the same names, the real used variant is selected by
+# BR2_PACKAGE_RPI_FIRMWARE_{DEFAULT,X,CD} choice
+start_file=start.elf
+fixup_file=fixup.dat
+
+kernel=Image
+initramfs initrd followkernel
+
+# enable 64bits support
+arm_64bit=1
+
+arm_freq=2000
+
+dtparam=eee=off,watchdog=on
+dtoverlay=disable-bt
+dtoverlay=disable-wifi
