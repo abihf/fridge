@@ -25,17 +25,27 @@ jobs:
         with:
           submodules: 'true'
 
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
       - name: Configure
-        run: |
-          pushd buildroot
-          make O=../4 BR2_EXTERNAL=../fridge rpi4_fridge_defconfig
-          popd
+        working-directory: buildroot
+        run: make O=../4 BR2_EXTERNAL=../fridge rpi4_fridge_defconfig
+        
+      - name: Download sources
+        working-directory: "4"
+        run: make source
+      
+      - name: Cache sources
+        run: az storage sync --account-name fridgebuild -c cache -s buildroot/dl -d dl
 
       - name: Build
-        run: |
-          pushd 4
-          make
-          popd
+        working-directory: "4"
+        run: make
       
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.0.0
