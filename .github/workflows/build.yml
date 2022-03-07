@@ -27,12 +27,12 @@ jobs:
         with:
           submodules: 'true'
 
-      - name: Azure login
-        uses: azure/login@v1
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          role-to-assume: arn:aws:iam::423861535915:role/FridgeGithubAction
+          role-session-name: GithubAction
+          aws-region: us-east-1
 
       - name: Configure
         working-directory: buildroot
@@ -41,9 +41,9 @@ jobs:
       - name: Download sources
         working-directory: "4"
         run: make source
-      
+
       - name: Cache sources
-        run: az storage sync --account-name fridgebuild -c cache -s buildroot/dl -d dl
+        run: aws s3 sync --acl public-read buildroot/dl/ s3://fridge-build/dl/
 
       - name: Build
         working-directory: "4"
