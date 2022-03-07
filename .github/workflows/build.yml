@@ -43,7 +43,7 @@ jobs:
         run: make source -j 8
 
       - name: Cache sources
-        run: aws s3 sync --acl public-read buildroot/dl/ s3://fridge-build/dl/
+        run: aws s3 sync --exclude '*/.lock' buildroot/dl/ s3://fridge-build/dl/
 
       - name: Build
         working-directory: "4"
