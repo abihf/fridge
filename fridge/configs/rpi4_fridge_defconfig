@@ -9,7 +9,7 @@ BR2_TARGET_OPTIMIZATION="-mcpu=cortex-a72+crypto -mtune=cortex-a72"
 BR2_GCC_ENABLE_LTO=y
 BR2_GCC_ENABLE_OPENMP=y
 BR2_GCC_ENABLE_GRAPHITE=y
-BR2_PRIMARY_SITE="https://fridge-build.s3.amazonaws.com/dl/"
+BR2_PRIMARY_SITE="https://fridge-build.s3.amazonaws.com/dl"
 BR2_ROOTFS_DEVICE_CREATION_DYNAMIC_EUDEV=y
 BR2_ROOTFS_MERGED_USR=y
 BR2_TARGET_GENERIC_ROOT_PASSWD="fridge"
