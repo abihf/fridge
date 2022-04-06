@@ -1,0 +1,2 @@
+source "$BR2_EXTERNAL_FRIDGE_PATH/package/nerdctl/Config.in"
+source "$BR2_EXTERNAL_FRIDGE_PATH/package/cni-plugins/Config.in"

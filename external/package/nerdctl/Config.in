@@ -1,0 +1,11 @@
+config BR2_PACKAGE_NERDCTL
+	bool "nerdctl"
+	depends on BR2_PACKAGE_HOST_GO_TARGET_ARCH_SUPPORTS
+	depends on BR2_PACKAGE_HOST_GO_TARGET_CGO_LINKING_SUPPORTS
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on !BR2_PACKAGE_DOCKER_CLI
+	select BR2_PACKAGE_CONTAINERD # runtime dependency
+	help
+	  nerdctl is a Docker-compatible CLI for containerd.
+
+	  https://github.com/containerd/nerdctl

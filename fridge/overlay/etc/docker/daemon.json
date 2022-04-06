@@ -1,7 +1,0 @@
-{
-  "data-root": "/storage/var/lib/docker",
-  "ip6tables": false,
-  "ipv6": false,
-  "userland-proxy": false,
-  "deprecated-key-path": "/storage/var/lib/docker/key.json"
-}
