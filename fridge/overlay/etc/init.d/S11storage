@@ -2,6 +2,7 @@
 
 case "$1" in
     start)
+        fsck.ext4 -p /dev/mmcblk0p2
         mount /dev/mmcblk0p2 /storage
 
         [ -d /storage/root ] || mkdir -p /storage/root
