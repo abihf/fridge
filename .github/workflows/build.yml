@@ -23,7 +23,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: 'true'
 
@@ -36,7 +36,7 @@ jobs:
 
       - name: Configure
         working-directory: buildroot
-        run: make O=../4 BR2_EXTERNAL=../fridge rpi4_fridge_defconfig
+        run: make O=../4 BR2_EXTERNAL=../external rpi4_fridge_defconfig
         
       - name: Download sources
         working-directory: "4"
