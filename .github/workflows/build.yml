@@ -27,6 +27,24 @@ jobs:
         with:
           submodules: 'true'
 
+      - name: Restore ccache
+        run: curl -L "https://fridge-build.s3.us-east-1.amazonaws.com/ccache.tar.zst" | tar -x --zst
+        continue-on-error: true
+
+      - name: Configure
+        working-directory: buildroot
+        run: make O=../4 BR2_EXTERNAL=../external rpi4_fridge_defconfig
+        
+      - name: Build
+        working-directory: "4"
+        run: make
+      
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          name: fridge-rpi4
+          path: 4/images
+          
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -34,31 +52,8 @@ jobs:
           role-session-name: GithubAction
           aws-region: us-east-1
 
-      - name: Restore ccache
-        run: aws s3 cp s3://fridge-build/dl/ccache.tar.zst - | tar -x --zst
-        continue-on-error: true
-
-      - name: Configure
-        working-directory: buildroot
-        run: make O=../4 BR2_EXTERNAL=../external rpi4_fridge_defconfig
-        
-      - name: Download sources
-        working-directory: "4"
-        run: make source -j 8
-
       - name: Cache sources
         run: aws s3 sync --exclude '*/.lock' --size-only buildroot/dl/ s3://fridge-build/dl/
 
-      - name: Build
-        working-directory: "4"
-        run: make
-      
       - name: Store ccache
-        run: tar -cR --zst 4/ccache | aws s3 cp - s3://fridge-build/dl/ccache.tar.zst
-
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3.0.0
-        with:
-          name: fridge-rpi4
-          path: 4/images
-          
+        run: tar -cR --zst 4/ccache | aws s3 cp - s3://fridge-build/ccache.tar.zst
