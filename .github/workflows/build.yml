@@ -34,6 +34,10 @@ jobs:
           role-session-name: GithubAction
           aws-region: us-east-1
 
+      - name: Restore ccache
+        run: aws s3 cp s3://fridge-build/dl/ccache.tar.zst - | tar -x --zst
+        continue-on-error: true
+
       - name: Configure
         working-directory: buildroot
         run: make O=../4 BR2_EXTERNAL=../external rpi4_fridge_defconfig
@@ -49,6 +53,9 @@ jobs:
         working-directory: "4"
         run: make
       
+      - name: Store ccache
+        run: tar -cR --zst 4/ccache | aws s3 cp - s3://fridge-build/dl/ccache.tar.zst
+
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.0.0
         with:
