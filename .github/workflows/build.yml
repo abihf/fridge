@@ -39,6 +39,11 @@ jobs:
         working-directory: "4"
         run: make
       
+      - name: Prepare Artifact
+        run: |
+          mv 4/images/rpi-firmware/* 4/images/
+          cp boot/cmdline.txt boot/config.txt 4/images/
+
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.0.0
         with:
