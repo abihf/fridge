@@ -1,0 +1,52 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Make SDK
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        with:
+          submodules: "true"
+
+      - name: Restore ccache
+        run: curl -L "https://fridge-build.s3.us-east-1.amazonaws.com/ccache.tar.zst" | tar -x --zst
+        continue-on-error: true
+
+      - name: Configure
+        working-directory: buildroot
+        run: make O=../sdk BR2_EXTERNAL=../external rpi4_sdk_defconfig
+
+      - name: Build
+        working-directory: "sdk"
+        run: make
+
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::423861535915:role/FridgeGithubAction
+          role-session-name: GithubAction
+          aws-region: us-east-1
+
+      - name: Upload sdk
+        run: aws s3 cp images/aarch64-buildroot-linux-gnu_sdk-buildroot.tar.gz s3://fridge-build/sdk/aarch64-buildroot-linux-gnu_sdk-buildroot.tar.gz
+
+      - name: Cache sources
+        run: aws s3 sync --exclude '*/.lock' --size-only buildroot/dl/ s3://fridge-build/dl/
+
+      - name: Store ccache
+        run: tar -cR --zst 4/ccache | aws s3 cp - s3://fridge-build/ccache.tar.zst
